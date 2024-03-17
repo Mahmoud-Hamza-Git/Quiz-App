@@ -5,25 +5,14 @@ import Progress from "./Progress";
 import Answers from "../components/Answers";
 
 //
+const initialAnswer = { answer: null, showResult: false };
 
 function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState(initialAnswer);
 
   // Event Handlers
-  const handleSelectAnswer = useCallback((answer, skip) => {
-    setSelectedAnswer(answer);
-    if (!skip) {
-      setTimeout(() => {
-        setSelectedAnswer(null);
-        setUserAnswers((prev) => [...prev, answer]);
-      }, 2000);
-    } else {
-      setSelectedAnswer(null);
-      setUserAnswers((prev) => [...prev, answer]);
-    }
-  }, []);
-  const handleSkipAnswer = useCallback(() => handleSelectAnswer(null, true), [handleSelectAnswer]);
+  const handleSkipAnswer = useCallback(() => setUserAnswers((prev) => [...prev, null]), []);
 
   // Computed Values
   const activeQuestionIndex = userAnswers.length;
@@ -45,15 +34,20 @@ function Quiz() {
   return (
     <div id="quiz">
       <div id="question">
-        <Progress key={activeQuestionIndex} timeout={15000} onTimeout={handleSkipAnswer} />
+        <Progress
+          key={activeQuestionIndex}
+          timeout={selectedAnswer.answer == null ? 15000 : 3000}
+          onTimeout={handleSkipAnswer}
+          isAnswered={selectedAnswer.answer != null}
+        />
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
       </div>
       <Answers
         key={activeQuestionIndex}
-        answers={QUESTIONS[activeQuestionIndex].answers}
-        correctAnswer={QUESTIONS[activeQuestionIndex].answers[0]}
-        onSelectAnswer={handleSelectAnswer}
+        activeIndex={activeQuestionIndex}
+        setUserAnswers={setUserAnswers}
         selectedAnswer={selectedAnswer}
+        onSelectAnswer={setSelectedAnswer}
       />
     </div>
   );

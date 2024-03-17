@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 // reusable progress bar component
-function Progress({ timeout = 10000, onTimeout = null }) {
+function Progress({ timeout = 10000, onTimeout = null, isAnswered = false }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   // this side effect for setting the timeout
   useEffect(() => {
+    setRemainingTime(timeout);
     const timer = setTimeout(onTimeout, timeout);
     return () => {
       clearTimeout(timer);
@@ -22,7 +23,14 @@ function Progress({ timeout = 10000, onTimeout = null }) {
     };
   }, []);
 
-  return <progress id="question-time" value={remainingTime} max={timeout} />;
+  return (
+    <progress
+      id="question-time"
+      className={isAnswered ? "answered" : ""}
+      value={remainingTime}
+      max={timeout}
+    />
+  );
 }
 
 export default Progress;
