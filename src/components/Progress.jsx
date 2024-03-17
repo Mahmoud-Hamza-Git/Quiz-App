@@ -6,7 +6,6 @@ function Progress({ timeout = 10000, onTimeout = null, isAnswered = false }) {
 
   // this side effect for setting the timeout
   useEffect(() => {
-    setRemainingTime(timeout);
     const timer = setTimeout(onTimeout, timeout);
     return () => {
       clearTimeout(timer);
