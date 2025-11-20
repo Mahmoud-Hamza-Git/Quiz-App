@@ -17,6 +17,8 @@ An interactive multiple-choice quiz built with React and Vite. The app guides le
 ## 🔗 Live Preview
 
 - **https://hamza-quiz.netlify.app/**
+<div align="center"><img width="869" height="619" alt="quiz" src="https://github.com/user-attachments/assets/06ea36c1-bfe1-4ba8-a4ae-a5211ca1a1f9" /></div>	
+
 
 <br/>
 
